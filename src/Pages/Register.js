@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import loginImage from '../assets/login_.png';
 import { useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 // import { createUser } from '../features/auth/authSlice';
