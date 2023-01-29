@@ -19,18 +19,17 @@ export const billingApi = createApi({
       invalidatesTags: ['billings'],
     }),
     editBilling: builder.mutation({
-      query: (id, data) => ({
+      query: ({ id, billingData }) => ({
         url: `/update-billing/${id}`,
         method: 'PATCH',
-        body: data,
+        body: billingData,
       }),
       invalidatesTags: ['billings'],
     }),
     removeBilling: builder.mutation({
-      query: (data) => ({
-        url: '/delete-billing',
+      query: (id) => ({
+        url: `/delete-billing/${id}`,
         method: 'DELETE',
-        body: data,
       }),
       invalidatesTags: ['billings'],
     }),

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import {
   useAddBillingMutation,
@@ -7,30 +8,37 @@ import {
 } from '../features/api/billingApi';
 
 const EditBillModal = ({ billing }) => {
-  //   const { fullName, email, phoneNumber, billingAmount, _id } = billing;
-  console.log(billing);
   const { register, handleSubmit, reset } = useForm();
   const dispatch = useDispatch();
 
-  const [editBilling, { isLoading, isError, isSuccess }] =
+  const [editBilling, { isLoading, isError, isSuccess, error }] =
     useEditBillingMutation();
-
   const submit = (data) => {
+    const { firstName, lastName, email, phoneNumber, billingAmount } = data;
     const billingData = {
-      fullName: `${data?.firstName} ${data?.lastName}`,
-      firstName: data?.firstName,
-      lastName: data?.lastName,
-      email: data?.email,
-      phoneNumber: data?.phoneNumber,
-      billingAmount: data?.billingAmount,
+      firstName: firstName ? firstName : billing.firstName,
+      lastName: lastName ? lastName : billing.lastName,
+      email: email ? email : billing.email,
+      phoneNumber: phoneNumber ? phoneNumber : billing.phoneNumber,
+      billingAmount: billingAmount ? billingAmount : billing.billingAmount,
     };
 
-    dispatch(editBilling(billing?._id, billingData));
+    dispatch(editBilling({ id: billing._id, billingData }));
   };
-  if (isSuccess) {
-    console.log(isSuccess, 'success');
-    document.getElementById('edit-modal').checked = false;
-  }
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading('Loading...', { id: 'edit' });
+    }
+    if (isSuccess) {
+      toast.success('Success', { id: 'edit' });
+      reset();
+      document.getElementById('edit-modal').checked = false;
+    }
+    if (isError) {
+      toast.error(error, { id: 'edit' });
+    }
+  }, [error, isLoading, isSuccess, isError, reset]);
+
   return (
     <div>
       <input type="checkbox" id="edit-modal" className="modal-toggle" />

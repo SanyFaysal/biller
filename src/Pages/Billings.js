@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import AddBillModal from '../components/AddBillModal';
 import BillingTableRow from '../components/BillingTableRow';
@@ -11,13 +12,6 @@ const Billings = () => {
   const { data, isSuccess, isLoading, isError, error } = useGetBillingsQuery();
   const [billing, setBilling] = useState();
   const billingList = data?.data;
-  console.log(billingList);
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-  if (isError) {
-    return <p>{error}</p>;
-  }
 
   return (
     <div className="overflow-x-auto mt-4 px-6">
@@ -49,13 +43,28 @@ const Billings = () => {
           </tr>
         </thead>
         <tbody>
-          {billingList.map((billing) => (
-            <BillingTableRow
-              billing={billing}
-              key={billing._id}
-              setBilling={setBilling}
-            />
-          ))}
+          {isSuccess &&
+            billingList.map((billing) => (
+              <BillingTableRow
+                billing={billing}
+                key={billing._id}
+                setBilling={setBilling}
+              />
+            ))}
+          {isLoading && (
+            <tr>
+              <th>
+                {' '}
+                <button className="btn btn-md loading bg-transparent text-black border-none px-[0px]"></button>
+                Generating Id ...
+              </th>
+              <th>---</th>
+              <th>---</th>
+              <th>---</th>
+              <th>---</th>
+              <th className="text-center">--</th>
+            </tr>
+          )}
         </tbody>
       </table>
       <Pagination />
