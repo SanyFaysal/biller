@@ -1,27 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useLoginMutation, useSignUpMutation } from '../features/api/authApi';
 
 const Login = () => {
   const { handleSubmit, register, reset, control } = useForm();
-
+  const [loginUser, { isLoading, isError, isSuccess, error, data }] =
+    useLoginMutation();
   const navigate = useNavigate();
-  const [disabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    // dispatch(createUser(data));
-    console.log(data);
+    dispatch(loginUser(data));
   };
-
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading('Loading...', { id: 'edit' });
+    }
+    if (isSuccess) {
+      toast.success('Success', { id: 'edit' });
+      localStorage.setItem('token', data?.token);
+      console.log(data?.token);
+      reset();
+    }
+    if (isError) {
+      toast.error(error, { id: 'edit' });
+    }
+  }, [error, isLoading, isSuccess, isError, reset]);
   return (
     <div className="flex  items-center pt-10">
       <div className="w-1/2  rounded-lg grid place-items-center p-10 px-16 border mx-auto">
         <h1 className="mb-10 font-bold text-2xl">Login your account</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
           <div className="">
-            <label htmlFor="email" className="font-semibold text-lg mb-1 ">
+            <label htmlFor="email" className="font-semibold text-sm mb-1 ">
               Email
             </label>
             <input
@@ -29,11 +43,11 @@ const Login = () => {
               name="email"
               id="email"
               {...register('email')}
-              className="w-full input input-bordered"
+              className="w-full input input-sm py-5 input-bordered"
             />
           </div>
           <div className="flex flex-col items-start my-2">
-            <label htmlFor="password" className="font-semibold text-lg mb-1  ">
+            <label htmlFor="password" className="font-semibold text-sm mb-1  ">
               Password
             </label>
             <input
@@ -41,7 +55,7 @@ const Login = () => {
               name="password"
               id="password"
               {...register('password')}
-              className="w-full input input-bordered"
+              className="w-full input input-sm py-5 input-bordered"
             />
           </div>
 
@@ -60,7 +74,7 @@ const Login = () => {
                 className="text-primary hover:underline cursor-pointer"
                 onClick={() => navigate('/register')}
               >
-                Login
+                Register
               </span>
             </p>
           </div>

@@ -3,6 +3,7 @@ import Layout from '../layout/Layout';
 import Billings from '../Pages/Billings';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register';
+import PrivateRoute from '../utils/PrivateRoute';
 
 const routes = createBrowserRouter([
   {
@@ -11,7 +12,11 @@ const routes = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Billings />,
+        element: (
+          <PrivateRoute>
+            <Billings />
+          </PrivateRoute>
+        ),
       },
       //     {
       //       path: "/jobs",
@@ -29,14 +34,10 @@ const routes = createBrowserRouter([
         path: '/register',
         element: <Register />,
       },
-      //     {
-      //       path: "/register",
-      //       element: (
-      //         <PrivateRoute>
-      //           <AccountCreator />
-      //         </PrivateRoute>
-      //       ),
-      //     },
+      {
+        path: '/register',
+        element: <PrivateRoute></PrivateRoute>,
+      },
       //     {
       //       path: "/register/:type",
       //       element: (

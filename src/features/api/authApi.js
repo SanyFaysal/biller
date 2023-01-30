@@ -12,22 +12,26 @@ export const authApi = createApi({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['user'],
     }),
     signUp: builder.mutation({
       query: (data) => ({
-        url: `/register`,
+        url: `/registration`,
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: ['billings'],
+    }),
+    getMe: builder.mutation({
+      query: (token) => ({
+        url: `/registration`,
+        method: 'POST',
+        headers: {
+          'content-type': 'text/plain',
+          authorization: `Bearer ${token}`,
+        },
+      }),
     }),
   }),
 });
 
-export const {
-  useGetBillingsQuery,
-  useAddBillingMutation,
-  useEditBillingMutation,
-  useRemoveBillingMutation,
-} = authApi;
+export const { useLoginMutation, useSignUpMutation, useGetMeMutation } =
+  authApi;
