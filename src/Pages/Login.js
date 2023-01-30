@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useLoginMutation, useSignUpMutation } from '../features/api/authApi';
+import { useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../features/api/authApi';
 
 const Login = () => {
-  const { handleSubmit, register, reset, control } = useForm();
+  const { handleSubmit, register, reset } = useForm();
   const [loginUser, { isLoading, isError, isSuccess, error, data }] =
     useLoginMutation();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const Login = () => {
     if (isError) {
       toast.error(error, { id: 'edit' });
     }
-  }, [error, isLoading, isSuccess, isError, reset]);
+  }, [error, isLoading, isSuccess, isError, reset, data?.token, navigate]);
   return (
     <div className="flex  items-center pt-10">
       <div className="w-1/2  rounded-lg grid place-items-center p-10 px-16 border mx-auto">

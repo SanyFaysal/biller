@@ -2,10 +2,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import {
-  useAddBillingMutation,
-  useEditBillingMutation,
-} from '../features/api/billingApi';
+import { useEditBillingMutation } from '../features/api/billingApi';
 import SubmissionForm from './SubmissionForm';
 
 const EditBillModal = ({ billing }) => {

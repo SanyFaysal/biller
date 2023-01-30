@@ -1,5 +1,4 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
 
 const SubmissionForm = ({ handleSubmit, submit, register, billing, id }) => {
   return (
