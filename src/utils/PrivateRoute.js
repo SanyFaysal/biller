@@ -1,24 +1,27 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { toast } from 'react-hot-toast';
+
 import { Navigate, useLocation } from 'react-router-dom';
-import { useGetMeMutation } from '../features/api/authApi';
+import { useGetMeQuery } from '../features/api/authApi';
 // import Loading from "../components/reusable/Loading";
 
 const PrivateRoute = ({ children }) => {
-  const [getMe, result] = useGetMeMutation();
-
-  const dispatch = useDispatch();
-  const token = localStorage.getItem('token');
-  useEffect(() => {
-    dispatch(getMe(token));
-  }, []);
-
-  console.log(result);
+  const { data, isLoading, isSuccess, isError, error } = useGetMeQuery(
+    localStorage.getItem('token')
+  );
 
   const { pathname } = useLocation();
-  const isLoading = false;
-  const email = 'test@gmail.com';
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading('Loading...', { id: 'edit' });
+    }
 
+    if (isError) {
+      toast.error(error, { id: 'edit' });
+    }
+  }, [error, isLoading, isSuccess, isError]);
+  const email = data?.data?.email;
+  console.log(email);
   if (isLoading) {
     // return <Loading />;
   }

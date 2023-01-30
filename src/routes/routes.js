@@ -34,10 +34,7 @@ const routes = createBrowserRouter([
         path: '/register',
         element: <Register />,
       },
-      {
-        path: '/register',
-        element: <PrivateRoute></PrivateRoute>,
-      },
+
       //     {
       //       path: "/register/:type",
       //       element: (

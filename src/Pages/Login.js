@@ -22,7 +22,8 @@ const Login = () => {
     if (isSuccess) {
       toast.success('Success', { id: 'edit' });
       localStorage.setItem('token', data?.token);
-      console.log(data?.token);
+      navigate('/');
+
       reset();
     }
     if (isError) {

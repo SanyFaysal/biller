@@ -40,11 +40,12 @@ const Register = () => {
     if (isSuccess) {
       toast.success('Success', { id: 'edit' });
       reset();
+      navigate('/');
     }
     if (isError) {
       toast.error(error, { id: 'edit' });
     }
-  }, [error, isLoading, isSuccess, isError, reset]);
+  }, [error, isLoading, isSuccess, isError, reset, navigate]);
 
   return (
     <div className="flex  items-center pt-10">
