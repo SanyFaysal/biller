@@ -5,6 +5,7 @@ import PhoneInput from 'react-phone-number-input';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAddBillingMutation } from '../features/api/billingApi';
+import SubmissionForm from './SubmissionForm';
 
 const AddBillModal = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -45,7 +46,7 @@ const AddBillModal = () => {
       <div className="modal" id="add-billing-modal">
         <div className="modal-box  w-1/2 max-w-5xl px-12 pb-12 pt-8  ">
           <h3 className="font-bold text-xl  mb-5">Add New Bill</h3>
-          <form onSubmit={handleSubmit(submit)}>
+          {/* <form onSubmit={handleSubmit(submit)}>
             <div className="grid lg:grid-cols-2 gap-x-10 gap-y-3 pb-5">
               <div className="flex flex-col">
                 <label htmlFor="firstName" className="text-sm font-semibold ">
@@ -122,7 +123,14 @@ const AddBillModal = () => {
                 </label>
               </div>
             </div>
-          </form>
+          </form> */}
+
+          <SubmissionForm
+            handleSubmit={handleSubmit}
+            submit={submit}
+            register={register}
+            id="add-billing-modal"
+          />
         </div>
       </div>
     </div>

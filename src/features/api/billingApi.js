@@ -7,7 +7,8 @@ export const billingApi = createApi({
   tagTypes: ['billings'],
   endpoints: (builder) => ({
     getBillings: builder.query({
-      query: () => '/billing-list',
+      query: ({ pagination = 1, filter }) =>
+        `/billing-list?page=${pagination}&limit=10&filter=${filter}`,
       providesTags: ['billings'],
     }),
     addBilling: builder.mutation({

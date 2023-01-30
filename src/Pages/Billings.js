@@ -9,9 +9,19 @@ import Pagination from '../components/Pagination';
 import { useGetBillingsQuery } from '../features/api/billingApi';
 
 const Billings = () => {
-  const { data, isSuccess, isLoading, isError, error } = useGetBillingsQuery();
+  const [pagination, setPagination] = useState(1);
+  const [filter, setFilter] = useState();
+
+  const { data, isSuccess, isLoading, isError, error } = useGetBillingsQuery({
+    pagination,
+    filter,
+  });
+
   const [billing, setBilling] = useState();
-  const billingList = data?.data;
+  const billingList = data?.data?.billingList;
+  const page = data?.data?.page;
+  const total = data?.data?.total;
+  console.log(isSuccess, isLoading, isError, error, billingList);
 
   return (
     <div className="overflow-x-auto mt-4 px-6">
@@ -20,12 +30,12 @@ const Billings = () => {
           <h2 className="">Billing List</h2>
           <input
             type="text"
+            onKeyUp={(e) => setFilter(e.target.value)}
             placeholder="Search"
             className="input input-bordered input-sm ml-28 w-1/4"
           />
         </div>
         <div className="w-1/4 flex justify-end">
-          {/* <button className="btn btn-sm btn-none ">Add New Bill</button> */}
           <label htmlFor="add-billing-modal" className="btn btn-sm btn-none ">
             Add New Bill
           </label>
@@ -65,9 +75,10 @@ const Billings = () => {
               <th className="text-center">--</th>
             </tr>
           )}
+          {isError && <p>{error}</p>}
         </tbody>
       </table>
-      <Pagination />
+      <Pagination page={page} total={total} setPagination={setPagination} />
       <AddBillModal />
       <EditBillModal billing={billing} />
     </div>
