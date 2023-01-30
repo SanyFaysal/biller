@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const billingApi = createApi({
   reducerPath: 'billingApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8080/api',
+    baseUrl: 'https://biller-server-production.up.railway.app/api',
   }),
   tagTypes: ['billings'],
   endpoints: (builder) => ({
